@@ -75,6 +75,14 @@ namespace CarManagement.Core.Services
             allOrders.Add(rentalOrder);
         }
 
+        public void ModifyElectricCar(ElectricCar electricCar)
+        {
+            _carService.ModifyElectricCar(electricCar);
+        }
 
+        public void ModifyPetrolCar(PetrolCar petrolCar)
+        {
+            _carService.ModifyPetrolCar(petrolCar);
+        }
     }
 }

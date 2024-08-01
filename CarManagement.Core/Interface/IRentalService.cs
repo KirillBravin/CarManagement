@@ -15,5 +15,7 @@ namespace CarManagement.Core.Interface
         void CreateRentContract( string customerName, string customerLastName, int carId, DateTime rentStart, int days);
         List<ElectricCar> GetElectricCars();
         List<PetrolCar> GetPetrolCars();
+        void ModifyElectricCar(ElectricCar electricCar);
+        void ModifyPetrolCar(PetrolCar petrolCar);
     }
 }

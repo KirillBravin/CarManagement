@@ -38,7 +38,7 @@ namespace CarManagement.Core.Models
 
         public override string ToString()
         {
-            return $"id: {Id} brand: {Brand} model: {Model} rental price: {RentalPrice} eur/hr fuel consumption: {FuelConsumption}/100 km";
+            return $"id: {Id} brand: {Brand} model: {Model} rental price: {RentalPrice} eur/hr fuel consumption: {FuelConsumption} / 100 km";
         }
     }
 }

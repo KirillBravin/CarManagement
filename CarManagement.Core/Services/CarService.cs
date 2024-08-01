@@ -52,6 +52,16 @@ namespace CarManagement.Core.Services
             return _carRepository.GetAllPetrolCars();
         }
 
+        public void ModifyElectricCar(ElectricCar electricCar)
+        {
+            _carRepository.ModifyElectricCar(electricCar);
+        }
+
+        public void ModifyPetrolCar(PetrolCar petrolCar)
+        {
+            _carRepository.ModifyPetrolCar(petrolCar);
+        }
+
         public List<Car> SearchByBrand(string brand) 
         {
             List<Car> filteredCars = new List<Car>();

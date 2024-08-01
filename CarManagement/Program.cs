@@ -12,6 +12,11 @@ public class Program
     public static void Main(string[] args)
     {
         IRentalService rentalService = SetupDependencies();
+        List<ElectricCar> electricCars = new List<ElectricCar>();
+        List<PetrolCar> petrolCars1 = new List<PetrolCar>();
+        List<ElectricCar> electricCarsFromDB = rentalService.GetElectricCars();
+        List<PetrolCar> petrolCarsFromDB = rentalService.GetPetrolCars();
+
         while (true)
         {
             Console.WriteLine("1. Show all cars");
@@ -20,6 +25,7 @@ public class Program
             Console.WriteLine("4. Show all petrol cars");
             Console.WriteLine("5. Create new order");
             Console.WriteLine("6. Add new car");
+            Console.WriteLine("7. Modify a car");
             Console.WriteLine("0. Exit");
 
             string input = Console.ReadLine();
@@ -118,6 +124,74 @@ public class Program
                     }
                     rentalService.AddNewCar(newCar);
                     break;
+                case "7":
+                    Console.WriteLine("Which car you would like to modify?");
+                    Console.WriteLine("1. Electric car.");
+                    Console.WriteLine("2. Petrol car.");
+                    string modifyInput = Console.ReadLine();
+                    switch (modifyInput)
+                    {
+                        case "1":
+                            electricCarsFromDB = rentalService.GetElectricCars();
+                            Console.WriteLine("Please enter car ID that you want to modify");
+                            int checkId_1 = int.Parse(Console.ReadLine());
+                            ElectricCar newElectricCar = electricCarsFromDB.FirstOrDefault(x => x.Id == checkId_1);
+                            if (newElectricCar == null)
+                            {
+                                Console.WriteLine("Car not found.");
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Current brand: {newElectricCar.Brand}, enter new brand: ");
+                                newElectricCar.Brand = Console.ReadLine();
+
+                                Console.WriteLine($"Current model: {newElectricCar.Model}, enter new model: ");
+                                newElectricCar.Model = Console.ReadLine();
+
+                                Console.WriteLine($"Current rental price: {newElectricCar.RentalPrice}, enter new rental price: ");
+                                newElectricCar.RentalPrice = decimal.Parse(Console.ReadLine());
+
+                                Console.WriteLine($"Current battery capacity: {newElectricCar.BatteryCapacity}, enter new battery capacity: ");
+                                newElectricCar.BatteryCapacity = int.Parse(Console.ReadLine());
+
+                                Console.WriteLine($"Current charging time: {newElectricCar.ChargingTime}, enter new charging time: ");
+                                newElectricCar.ChargingTime = int.Parse(Console.ReadLine());
+
+                                rentalService.ModifyElectricCar(newElectricCar);
+                                Console.WriteLine("Car details successfully updated.");
+                            }
+                            break;
+                        case "2":
+                            petrolCarsFromDB = rentalService.GetPetrolCars();
+                            Console.WriteLine("Please enter car ID that you want to modify");
+                            int checkId_2 = int.Parse(Console.ReadLine());
+                            PetrolCar newPetrolCar = petrolCarsFromDB.FirstOrDefault(x => x.Id == checkId_2);
+                            if (newPetrolCar == null)
+                            {
+                                Console.WriteLine("Car not found.");
+                                break;
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Current brand: {newPetrolCar.Brand}, enter new brand: ");
+                                newPetrolCar.Brand = Console.ReadLine();
+
+                                Console.WriteLine($"Current model: {newPetrolCar.Model}, enter new model: ");
+                                newPetrolCar.Model = Console.ReadLine();
+
+                                Console.WriteLine($"Current rental price: {newPetrolCar.RentalPrice}, enter new rental price: ");
+                                newPetrolCar.RentalPrice = decimal.Parse(Console.ReadLine());
+
+                                Console.WriteLine($"Current fuel consumption: {newPetrolCar.FuelConsumption}, enter new fuel consumption: ");
+                                newPetrolCar.FuelConsumption = double.Parse(Console.ReadLine());
+
+                                rentalService.ModifyPetrolCar(newPetrolCar);
+                                Console.WriteLine("Car details successfully updated.");
+                            }
+                            break;
+                    }
+                    break;
                 case "0":
                     {
                         Environment.Exit(0);
@@ -131,9 +205,9 @@ public class Program
     public static IRentalService SetupDependencies()
     {
         ICustomerRepository customerRepository = new CustomerFileRepository("Customers.txt");
-        ICarRepository carRepository = new CarDBRepository("Server=localhost;Database=CarManagement;Trusted_Connection=True;");
+        ICarRepository carDBRepository = new CarDBRepository("Server=localhost;Database=CarManagement;Trusted_Connection=True;");
         ICustomerService customerService = new CustomerService(customerRepository);
-        ICarService carService = new CarService(carRepository);
+        ICarService carService = new CarService(carDBRepository);
         return new CarRentalService(customerService, carService);
     }
 }

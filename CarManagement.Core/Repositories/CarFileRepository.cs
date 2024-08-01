@@ -70,6 +70,16 @@ namespace CarManagement.Core.Repositories
             throw new NotImplementedException();
         }
 
+        public void ModifyElectricCar(ElectricCar electricCar)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ModifyPetrolCar(PetrolCar petrolCar)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Car> ReadCars()
         {
             List<Car> cars = new List<Car>();

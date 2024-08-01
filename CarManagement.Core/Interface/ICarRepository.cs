@@ -16,5 +16,8 @@ namespace CarManagement.Core.Interface
         void WritePetrolCar(PetrolCar petrolCar);
         List<ElectricCar> GetAllElectricCars();
         List<PetrolCar> GetAllPetrolCars();
+
+        void ModifyElectricCar(ElectricCar electricCar);
+        void ModifyPetrolCar(PetrolCar petrolCar);
     }
 }
