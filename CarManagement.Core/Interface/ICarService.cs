@@ -20,5 +20,8 @@ namespace CarManagement.Core.Interface
 
         void ModifyElectricCar(ElectricCar electricCar);
         void ModifyPetrolCar(PetrolCar petrolCar);
+
+        void DeleteElectricCar(int id);
+        void DeletePetrolCar(int id);
     }
 }

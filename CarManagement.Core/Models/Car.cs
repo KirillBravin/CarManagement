@@ -1,4 +1,7 @@
-﻿using System;
+﻿using CarManagement.Core.Enums;
+using CarManagement.Core.Interface;
+using CarManagement.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;

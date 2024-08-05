@@ -100,5 +100,23 @@ namespace CarManagement.Core.Repositories
                 connection.Execute(sqlCommand, petrolCar);
             }
         }
+
+        public void DeleteElectricCar(int id)
+        {
+            string sqlCommand = $"DELETE FROM electro_cars WHERE id = @Id";
+            using (var connection = new SqlConnection(_dbConnectionString))
+            {
+                connection.Execute(sqlCommand, new { Id = id });
+            }
+        }
+
+        public void DeletePetrolCar(int id)
+        {
+            string sqlCommand = $"DELETE FROM petrol_cars WHERE id = @Id";
+            using (var connection = new SqlConnection(_dbConnectionString))
+            {
+                connection.Execute(sqlCommand, new { Id = id });
+            }
+        }
     }
 }

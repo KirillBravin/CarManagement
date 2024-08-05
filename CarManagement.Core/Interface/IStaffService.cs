@@ -7,8 +7,10 @@ using CarManagement.Core.Models;
 
 namespace CarManagement.Core.Interface
 {
-    public interface ICustomerRepository
+    public interface IStaffService
     {
-       List<Customer> GetAllCustomers();
+        void AddStaff(Staff staff);
+        List<Staff> GetStaff();
+        Staff GetStaffById(int staffId);
     }
 }

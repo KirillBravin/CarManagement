@@ -80,6 +80,16 @@ namespace CarManagement.Core.Repositories
             throw new NotImplementedException();
         }
 
+        public void DeleteElectricCar(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DeletePetrolCar(int id)
+        {
+            throw new NotImplementedException(); 
+        }
+
         public List<Car> ReadCars()
         {
             List<Car> cars = new List<Car>();

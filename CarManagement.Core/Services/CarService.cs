@@ -62,6 +62,16 @@ namespace CarManagement.Core.Services
             _carRepository.ModifyPetrolCar(petrolCar);
         }
 
+        public void DeleteElectricCar(int id)
+        {
+            _carRepository.DeleteElectricCar(id);
+        }
+
+        public void DeletePetrolCar(int id)
+        {
+            _carRepository.DeletePetrolCar(id);
+        }
+
         public List<Car> SearchByBrand(string brand) 
         {
             List<Car> filteredCars = new List<Car>();

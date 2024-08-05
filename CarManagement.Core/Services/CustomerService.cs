@@ -11,9 +11,9 @@ namespace CarManagement.Core.Services
 {
     public class CustomerService : ICustomerService
     {
-        private readonly ICustomerRepository _customerRepository;
+        private readonly ICustomerDBRepository _customerRepository;
         private List<Customer> allCustomers = new List<Customer>();
-        public CustomerService(ICustomerRepository customerRepository)
+        public CustomerService(ICustomerDBRepository customerRepository)
         {
             _customerRepository = customerRepository;
         }
@@ -30,16 +30,22 @@ namespace CarManagement.Core.Services
 
         public void AddCustomer(Customer customer)
         {
-            allCustomers.Add(customer);
+            _customerRepository.AddCustomer(customer);
         }
 
         public List<Customer> GetAllCustomers()
         {
-            if (allCustomers.Count == 0)
-            {
-                allCustomers = _customerRepository.GetAllCustomers();
-            }
-            return allCustomers;
+            return _customerRepository.GetAllCustomers();
+        }
+
+        public void ModifyCustomer(Customer customer)
+        {
+            _customerRepository.ModifyCustomer(customer);
+        }
+
+        public void DeleteCustomer(int id)
+        {
+            _customerRepository.DeleteCustomer(id);
         }
 
         public Customer SearchByName(string firstName, string lastName)
@@ -55,5 +61,7 @@ namespace CarManagement.Core.Services
             }
             return customer;
         }
+
+
     }
 }

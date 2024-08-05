@@ -1,4 +1,6 @@
-﻿using System;
+﻿using CarManagement.Core.Interface;
+using CarManagement.Core.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +10,22 @@ namespace CarManagement.Core.Models
 {
     public class Customer
     {
+        public int Id { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
-        public DateOnly BirthYear { get; set; }
+        public DateTime BirthYear { get; set; }
 
         public Customer() { }
 
-        public Customer (string firstName, string lastName, DateOnly birthYear)
+        public Customer(int id, string firstName, string lastName, DateTime birthYear)
+        {
+            Id = id;
+            FirstName = firstName;
+            LastName = lastName;
+            BirthYear = birthYear;
+        }
+
+        public Customer (string firstName, string lastName, DateTime birthYear)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -23,7 +34,7 @@ namespace CarManagement.Core.Models
 
         public override string ToString()
         {
-            return $"Name: {FirstName} last name: {LastName} year of birth: {BirthYear.ToString("yyy")} months: {BirthYear.ToString("MM")}";
+            return $"Id: {Id}, name: {FirstName} last name: {LastName} year of birth: {BirthYear.ToString("yyyy")}";
         }
     }
 }

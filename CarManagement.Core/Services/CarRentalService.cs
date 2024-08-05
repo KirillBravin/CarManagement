@@ -12,14 +12,16 @@ namespace CarManagement.Core.Services
     {
         private readonly ICustomerService _customerService;
         private readonly ICarService _carService;
+        private readonly IStaffService _staffService;
 
         private List<Car> allCars = new List<Car>();
         private List<RentalOrder> allOrders = new List<RentalOrder>();
 
-        public CarRentalService(ICustomerService customerService, ICarService carService)
+        public CarRentalService(ICustomerService customerService, ICarService carService, IStaffService staffService)
         {
             _carService = carService;
             _customerService = customerService;
+            _staffService = staffService;
         }
 
         public List<Car> GetAllCars()
@@ -83,6 +85,46 @@ namespace CarManagement.Core.Services
         public void ModifyPetrolCar(PetrolCar petrolCar)
         {
             _carService.ModifyPetrolCar(petrolCar);
+        }
+
+        public void DeleteElectricCar(int id)
+        {
+            _carService.DeleteElectricCar(id);
+        }
+
+        public void DeletePetrolCar(int id)
+        {
+            _carService.DeletePetrolCar(id);
+        }
+
+        public void AddStaff(Staff staff)
+        {
+            _staffService.AddStaff(staff);
+        }
+
+        public List<Staff> GetStaff()
+        {
+            return _staffService.GetStaff();
+        }
+
+        public Staff GetStaffById(int id)
+        {
+            return _staffService.GetStaffById(id);
+        }
+
+        public void AddCustomer(Customer customer)
+        {
+            _customerService.AddCustomer(customer);
+        }
+
+        public void ModifyCustomer(Customer customer)
+        {
+            _customerService.ModifyCustomer(customer);
+        }
+
+        public void DeleteCustomer(int id)
+        {
+            _customerService.DeleteCustomer(id);
         }
     }
 }
