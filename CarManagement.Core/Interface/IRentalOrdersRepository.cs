@@ -10,7 +10,7 @@ namespace CarManagement.Core.Interface
     public interface IRentalOrdersRepository
     {
         void CreateRentContract(Customer customer, Staff staff, Car car, DateTime rentStart, int days);
-        List<RentalOrder> ShowAllContracts();
+        List<dynamic> ShowAllContracts();
         void DeleteContract(int id);
         void ModifyContract(Customer customer, Staff staff, Car car, DateTime rentStart, int days);
     }

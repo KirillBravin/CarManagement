@@ -30,7 +30,7 @@ namespace CarManagement.Core.Services
             _orderRepository.CreateRentContract(customer, staff, car, rentStart, days);
         }
 
-        public List<RentalOrder> ShowAllRentalOrders()
+        public List<dynamic> ShowAllRentalOrders()
         {
             return _orderRepository.ShowAllContracts();
         }

@@ -13,7 +13,7 @@ namespace CarManagement.Core.Interface
         void ReadFromFile();
         void WriteToFile();
         void AddRentalOrder(Customer customer, Staff staff, Car car, DateTime rentStart, int days);
-        List<RentalOrder> ShowAllRentalOrders();
+        List<dynamic> ShowAllRentalOrders();
         void ModifyContract(Customer customer, Staff staff, Car car, DateTime rentStart, int days);
         void DeleteContract(int id);
     }

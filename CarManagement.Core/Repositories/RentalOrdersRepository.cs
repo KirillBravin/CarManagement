@@ -41,14 +41,15 @@ namespace CarManagement.Core.Repositories
             }
         }
 
-        public List<RentalOrder> ShowAllContracts()
+        public List<dynamic> ShowAllContracts()
         {
             using IDbConnection dbConnection = new SqlConnection(_dbConnectionString);
             dbConnection.Open();
-            var result = dbConnection.Query<RentalOrder>(@"SELECT id, employee_id, car_id, customer_id, 
-            rental_started, days FROM rental_orders").ToList();
-            dbConnection.Close();
-            return result;
+
+            var result = dbConnection.Query<dynamic>(@"SELECT ro.employee_id AS StaffId, ro.car_id AS CarId, ro.customer_id AS CustomerId, 
+                ro.rental_started AS RentalStart, ro.days AS NumberOfDays FROM rental_orders ro").ToList();
+                dbConnection.Close();
+                return result;
         }
 
         public void DeleteContract(int id)
@@ -63,7 +64,7 @@ namespace CarManagement.Core.Repositories
         public void ModifyContract (Customer customer, Staff staff, Car car, DateTime rentStart, int days)
         {
             string sqlCommand = @"UPDATE rental_orders SET employee_id = @StaffId, 
-            car_id = @CarId, customer_id = @CustomerId, rental_started = @RentalStarted, days = @Days 
+            car_id = @CarId, customer_id = @CustomerId, rental_started = @RentStart, days = @Days 
             WHERE id = @Id";
             using (var connection = new SqlConnection(_dbConnectionString))
             {
@@ -73,7 +74,7 @@ namespace CarManagement.Core.Repositories
                     CarId = car.Id,
                     CustomerId = customer.Id,
                     RentStart = rentStart,
-                    Days = days
+                    Days = days,
                 };
 
                 connection.Execute(sqlCommand, parameters);

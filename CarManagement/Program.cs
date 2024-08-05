@@ -19,7 +19,7 @@ public class Program
         List<PetrolCar> petrolCarsFromDB = rentalService.GetPetrolCars();
         List<Staff> staffMembers = rentalService.GetStaff();
         List<Customer> allCustomers = rentalService.GetAlLCustomers();
-        List<RentalOrder> allRentalOrders = rentalService.ShowAllRentalOrders();
+        List<dynamic> allRentalOrders = rentalService.ShowAllRentalOrders();
 
         while (true)
         {
@@ -141,23 +141,158 @@ public class Program
 
                     break;
                 case "3":
+                    Console.WriteLine("1. Add new order.");
+                    Console.WriteLine("2. Show all orders.");
+                    Console.WriteLine("3. Modify an order.");
+                    Console.WriteLine("4. Delete an order.");
 
-                    //Console.WriteLine("Rental order.");
-                    //Console.WriteLine("Insert clients name: ");
-                    //string name = Console.ReadLine();
-                    //Console.WriteLine("Insert clients last name: ");
-                    //string lastName = Console.ReadLine();
+                    electricCarsFromDB = rentalService.GetElectricCars();
+                    petrolCarsFromDB = rentalService.GetPetrolCars();
+                    staffMembers = rentalService.GetStaff();
+                    allCustomers = rentalService.GetAlLCustomers();
 
-                    //Console.WriteLine("Choose a staff member by id to help you: ");
-                    //int staffId = int.Parse(Console.ReadLine());
+                    string orderInput = Console.ReadLine();
+                    switch(orderInput)
+                    {
+                        case "1":
+                            Console.WriteLine("Insert client id: ");
+                            int orderClientId = int.Parse(Console.ReadLine());
+                            Customer customer = allCustomers.FirstOrDefault(c => c.Id == orderClientId);
 
-                    //Console.WriteLine("Choose a car by its id: ");
-                    //int carId = int.Parse(Console.ReadLine()); ;
+                            if (customer == null)
+                            {
+                                Console.WriteLine("This customer doesn't exist.");
+                                return;
+                            }
 
-                    //Console.WriteLine("Insert for how many days you want to rent a car: ");
-                    //int days = int.Parse(Console.ReadLine());
+                            Console.WriteLine("Choose a car: ");
+                            Console.WriteLine("1. Electro car");
+                            Console.WriteLine("2. Petrol Car");
+                            int choosingCar = int.Parse(Console.ReadLine());
 
-                    //rentalService.CreateRentContract(name, lastName, carId, DateTime.Now, days, staffId);
+                            Car car = null;
+
+                            switch (choosingCar)
+                            {
+                                case 1:
+                                    Console.WriteLine("Input electro car id: ");
+                                    int orderElectricCarId = int.Parse(Console.ReadLine());
+                                    car = electricCarsFromDB.FirstOrDefault(ec => ec.Id == orderElectricCarId);
+                                    break;
+                                case 2:
+                                    Console.WriteLine("Input petrol car id: ");
+                                    int orderPetrolCarId = int.Parse(Console.ReadLine());
+                                    car = petrolCarsFromDB.FirstOrDefault(pc => pc.Id == orderPetrolCarId);
+                                    break;
+                                default:
+                                    Console.WriteLine("Incorrect input.");
+                                    return;
+                            }
+
+                            if (car == null)
+                            {
+                                Console.WriteLine("This car doesn't exist.");
+                                return;
+                            }
+
+                            Console.WriteLine("Insert staff id: ");
+                            int orderStaffId = int.Parse(Console.ReadLine());
+                            Staff staff = staffMembers.FirstOrDefault(s => s.Id == orderStaffId);
+
+                            if (staff == null)
+                            {
+                                Console.WriteLine("Staff member doesn't exist.");
+                                return;
+                            }
+
+                            Console.WriteLine("Please enter the amount of days: ");
+                            int orderDays = int.Parse(Console.ReadLine());
+
+                            rentalService.AddRentalOrder(customer, staff, car, DateTime.Now, orderDays);
+                            break;
+                        case "2":
+                            allRentalOrders = rentalService.ShowAllRentalOrders();
+                            foreach(var order in allRentalOrders)
+                            {
+                                Console.WriteLine($"Employee id: {order.StaffId} car id: {order.CarId}, " +
+                                $"customer id: {order.CustomerId}, rental start: {order.RentalStart}, days: {order.NumberOfDays}");
+                            }
+                            break;
+                        case "3":
+                            Console.WriteLine("Please enter the rental order id of the order you want to modify.");
+                            int orderToModifyId = int.Parse(Console.ReadLine());
+
+                            RentalOrder orderToModify = allRentalOrders.FirstOrDefault(x => x.Customer.Id == orderToModifyId);
+
+                            if (orderToModify == null)
+                            {
+                                Console.WriteLine("Rental order not found.");
+                                return;
+                            }
+
+                            Console.WriteLine("Choose a car: ");
+                            Console.WriteLine("1. Electro car");
+                            Console.WriteLine("2. Petrol Car");
+                            int modifyingNewCar = int.Parse(Console.ReadLine());
+                            Car car1 = null;
+
+                            switch (modifyingNewCar)
+                            {
+                                case 1:
+                                    Console.WriteLine("Input electro car id: ");
+                                    int orderElectricCarId = int.Parse(Console.ReadLine());
+                                    car1 = electricCarsFromDB.FirstOrDefault(ec => ec.Id == orderElectricCarId);
+                                    break;
+                                case 2:
+                                    Console.WriteLine("Input petrol car id: ");
+                                    int orderPetrolCarId = int.Parse(Console.ReadLine());
+                                    car1 = petrolCarsFromDB.FirstOrDefault(pc => pc.Id == orderPetrolCarId);
+                                    break;
+                                default:
+                                    Console.WriteLine("Incorrect input.");
+                                    return;
+                            }
+
+                            if (car1 == null)
+                            {
+                                Console.WriteLine("This car doesn't exist.");
+                                return;
+                            }
+
+                            Console.WriteLine("Insert staff id: ");
+                            int modifiedStaffId = int.Parse(Console.ReadLine());
+                            Staff staff1 = staffMembers.FirstOrDefault(s => s.Id == modifiedStaffId);
+
+                            if (staff1 == null)
+                            {
+                                Console.WriteLine("Staff member doesn't exist.");
+                                return;
+                            }
+
+                            Console.WriteLine("Please enter the amount of days: ");
+                            int modifiedOrderDays = int.Parse(Console.ReadLine());
+
+                            rentalService.ModifyContract(orderToModify.Customer, staff1, car1, DateTime.Now, modifiedOrderDays);
+
+                            break;
+                        case "4":
+                            {
+                                Console.WriteLine("Please enter customer ID: ");
+                                int customerId = int.Parse(Console.ReadLine());
+                                Customer customerToDelete = allCustomers.FirstOrDefault(x => x.Id == customerId);
+
+                                if (customerToDelete == null)
+                                {
+                                    Console.WriteLine("This customer doesn't exist.");
+                                    return;
+                                }
+
+                                rentalService.DeleteContract(customerId);
+                                Console.WriteLine("Customer successfully deleted.");
+                                break;
+                            }
+                    }
+
 
                     break;
                 case "4":

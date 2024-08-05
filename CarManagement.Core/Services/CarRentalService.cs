@@ -106,7 +106,7 @@ namespace CarManagement.Core.Services
             _rentalOrderService.AddRentalOrder(customer, staff, car, rentStart, days);
         }
 
-        public List<RentalOrder> ShowAllRentalOrders()
+        public List<dynamic> ShowAllRentalOrders()
         {
             return _rentalOrderService.ShowAllRentalOrders();
         }

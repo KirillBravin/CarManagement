@@ -9,8 +9,11 @@ namespace CarManagement.Core.Models
     public class RentalOrder
     {
         public Car Car { get; set; }
+        public int CarId { get; set; }
         public Customer Customer { get; set; }
+        public int CustomerId { get; set; }
         public Staff Staff { get; set; }
+        public int StaffId { get; set; }
         public DateTime RentalStart { get; set; }
         public int NumberOfDays { get; set; }
 
@@ -19,6 +22,15 @@ namespace CarManagement.Core.Models
             Car = newCar;
             Customer = newCustomer;
             Staff = newStaff;
+            RentalStart = rentalStart;
+            NumberOfDays = numberOfDays;
+        }
+
+        public RentalOrder(int carId, int customerId, int staffId, DateTime rentalStart, int numberOfDays)
+        {
+            CarId = carId;
+            StaffId = staffId;
+            CustomerId = customerId;
             RentalStart = rentalStart;
             NumberOfDays = numberOfDays;
         }
