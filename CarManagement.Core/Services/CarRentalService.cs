@@ -13,24 +13,17 @@ namespace CarManagement.Core.Services
         private readonly ICustomerService _customerService;
         private readonly ICarService _carService;
         private readonly IStaffService _staffService;
+        private readonly IRentalOrderService _rentalOrderService;
 
         private List<Car> allCars = new List<Car>();
         private List<RentalOrder> allOrders = new List<RentalOrder>();
 
-        public CarRentalService(ICustomerService customerService, ICarService carService, IStaffService staffService)
+        public CarRentalService(ICustomerService customerService, ICarService carService, IStaffService staffService, IRentalOrderService rentalOrderService)
         {
             _carService = carService;
             _customerService = customerService;
             _staffService = staffService;
-        }
-
-        public List<Car> GetAllCars()
-        {
-            if (allCars.Count == 0)
-            {
-                allCars = _carService.GetAllCars();
-            }
-            return allCars;
+            _rentalOrderService = rentalOrderService;
         }
 
         public void AddNewCar(Car car)
@@ -53,28 +46,9 @@ namespace CarManagement.Core.Services
             return _carService.GetPetrolCars();
         }
 
-        public void CreateRentContract(string customerName, string customerLastName, int carId, DateTime rentStart, int days)
+        public void CreateRentContract(Customer customer, Staff staff, Car car, DateTime rentStart, int days)
         {
-            Customer customer = _customerService.SearchByName(customerName, customerLastName);
-
-            Car car = new Car();
-
-            foreach(Car a in allCars)
-            {
-                if (a.Id == carId)
-                {
-                    car = a;
-                }
-            }
-
-            RentalOrder rentalOrder = new RentalOrder
-            {
-                NewCustomer = customer,
-                NewCar = car,
-                RentalStart = rentStart,
-                NumberOfDays = days
-            };
-            allOrders.Add(rentalOrder);
+            
         }
 
         public void ModifyElectricCar(ElectricCar electricCar)
@@ -125,6 +99,26 @@ namespace CarManagement.Core.Services
         public void DeleteCustomer(int id)
         {
             _customerService.DeleteCustomer(id);
+        }
+
+        public void AddRentalOrder(Customer customer, Staff staff, Car car, DateTime rentStart, int days)
+        {
+            _rentalOrderService.AddRentalOrder(customer, staff, car, rentStart, days);
+        }
+
+        public List<RentalOrder> ShowAllRentalOrders()
+        {
+            return _rentalOrderService.ShowAllRentalOrders();
+        }
+
+        public void ModifyContract(Customer customer, Staff staff, Car car, DateTime rentStart, int days)
+        {
+            _rentalOrderService.ModifyContract(customer, staff, car, rentStart, days);
+        }
+
+        public void DeleteContract(int id)
+        {
+            _rentalOrderService.DeleteContract(id);
         }
     }
 }

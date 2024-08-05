@@ -19,12 +19,13 @@ public class Program
         List<PetrolCar> petrolCarsFromDB = rentalService.GetPetrolCars();
         List<Staff> staffMembers = rentalService.GetStaff();
         List<Customer> allCustomers = rentalService.GetAlLCustomers();
+        List<RentalOrder> allRentalOrders = rentalService.ShowAllRentalOrders();
 
         while (true)
         {
             Console.WriteLine("1. Show cars");
             Console.WriteLine("2. Customers");
-            Console.WriteLine("3. Create new order");
+            Console.WriteLine("3. Orders");
             Console.WriteLine("4. Add new car");
             Console.WriteLine("5. Modify a car");
             Console.WriteLine("6. Staff");
@@ -34,27 +35,19 @@ public class Program
             switch (input)
             {
                 case "1":
-                    Console.WriteLine("1. Show all cars.");
-                    Console.WriteLine("2. Show all electric cars.");
-                    Console.WriteLine("3. Show all petrol cars.");
+                    Console.WriteLine("1. Show all electric cars.");
+                    Console.WriteLine("2. Show all petrol cars.");
                     string showCarsInput = Console.ReadLine();
                     switch (showCarsInput)
                     {
                         case "1":
-                            List<Car> car = rentalService.GetAllCars();
-                            foreach (Car a in car)
-                            {
-                                Console.WriteLine(a);
-                            }
-                            break;
-                        case "2":
                             List<ElectricCar> electroCars = rentalService.GetElectricCars();
                             foreach (ElectricCar ecar in electroCars)
                             {
                                 Console.WriteLine(ecar);
                             }
                             break;
-                        case "3":
+                        case "2":
                                 List<PetrolCar> petrolCars = rentalService.GetPetrolCars();
                                 foreach (PetrolCar pcar in petrolCars)
                                 {
@@ -148,29 +141,23 @@ public class Program
 
                     break;
                 case "3":
-                    Console.WriteLine("Rental order: ");
-                    foreach (Customer client in rentalService.GetAlLCustomers())
-                    {
-                        Console.WriteLine(client);
-                    }
 
-                    Console.WriteLine("Insert clients name: ");
-                    string name = Console.ReadLine();
-                    Console.WriteLine("Insert clients last name: ");
-                    string lastName = Console.ReadLine();
+                    //Console.WriteLine("Rental order.");
+                    //Console.WriteLine("Insert clients name: ");
+                    //string name = Console.ReadLine();
+                    //Console.WriteLine("Insert clients last name: ");
+                    //string lastName = Console.ReadLine();
 
-                    foreach(Car auto in rentalService.GetAllCars())
-                    {
-                        Console.WriteLine(auto);
-                    }
+                    //Console.WriteLine("Choose a staff member by id to help you: ");
+                    //int staffId = int.Parse(Console.ReadLine());
 
-                    Console.WriteLine("Choose a car by its id: ");
-                    int carId = int.Parse(Console.ReadLine()); ;
+                    //Console.WriteLine("Choose a car by its id: ");
+                    //int carId = int.Parse(Console.ReadLine()); ;
 
-                    Console.WriteLine("Insert for how many days you want to rent a car: ");
-                    int days = int.Parse(Console.ReadLine());
+                    //Console.WriteLine("Insert for how many days you want to rent a car: ");
+                    //int days = int.Parse(Console.ReadLine());
 
-                    rentalService.CreateRentContract(name, lastName, carId, DateTime.Now, days);
+                    //rentalService.CreateRentContract(name, lastName, carId, DateTime.Now, days, staffId);
 
                     break;
                 case "4":
@@ -382,12 +369,15 @@ public class Program
 
     public static IRentalService SetupDependencies()
     {
-        ICustomerDBRepository customerDBRepository = new CustomerDBRepository("Server=localhost;Database=CarManagement;Trusted_Connection=True;");
-        ICarRepository carDBRepository = new CarDBRepository("Server=localhost;Database=CarManagement;Trusted_Connection=True;");
+        string connectionLink = "Server=localhost;Database=CarManagement;Trusted_Connection=True;";
+        ICustomerDBRepository customerDBRepository = new CustomerDBRepository(connectionLink);
+        ICarRepository carDBRepository = new CarDBRepository(connectionLink);
+        IStaffRepository staffRepository = new StaffDBRepository(connectionLink);
+        IRentalOrdersRepository rentalOrdersRepository = new RentalOrdersRepository(connectionLink);
         ICustomerService customerService = new CustomerService(customerDBRepository);
         ICarService carService = new CarService(carDBRepository);
-        IStaffRepository staffRepository = new StaffDBRepository("Server=localhost;Database=CarManagement;Trusted_Connection=True;");
         IStaffService staffService = new StaffService(staffRepository);
-        return new CarRentalService(customerService, carService, staffService);
+        IRentalOrderService rentalOrderService = new RentalOrderService(rentalOrdersRepository);
+        return new CarRentalService(customerService, carService, staffService, rentalOrderService);
     }
 }

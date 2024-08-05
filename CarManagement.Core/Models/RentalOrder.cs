@@ -8,20 +8,26 @@ namespace CarManagement.Core.Models
 {
     public class RentalOrder
     {
-        public Car NewCar { get; set; }
-        public Customer NewCustomer { get; set; }
+        public Car Car { get; set; }
+        public Customer Customer { get; set; }
+        public Staff Staff { get; set; }
         public DateTime RentalStart { get; set; }
         public int NumberOfDays { get; set; }
 
-        //public RentalOrder(DateTime rentalStart, int numberOfDays)
-        //{
-        //    RentalStart = rentalStart;
-        //    NumberOfDays = numberOfDays;
-        //}
+        public RentalOrder(Car newCar, Customer newCustomer, Staff newStaff, DateTime rentalStart, int numberOfDays)
+        {
+            Car = newCar;
+            Customer = newCustomer;
+            Staff = newStaff;
+            RentalStart = rentalStart;
+            NumberOfDays = numberOfDays;
+        }
+
+        public RentalOrder() { }
 
         public decimal calculateRentalPrice()
         {
-            return Math.Round(NewCar.RentalPrice * NumberOfDays, 2);
+            return Math.Round(Car.RentalPrice * NumberOfDays, 2);
         }
 
         public DateTime GetEndDate()
